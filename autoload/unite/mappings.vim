@@ -282,6 +282,10 @@ function! unite#mappings#narrowing(word, ...) "{{{
   setlocal modifiable
   let unite = unite#get_current_unite()
 
+  let unite.input = (empty(unite.args)
+        \ && unite.input =~ '^.\{-}\%(\\\@<!\s\)\+\zs.*') ?
+        \ matchstr(unite.input, '^.\{-}\%(\\\@<!\s\)\+') : ''
+
   let unite.input .= is_escape ? escape(a:word, ' *') : a:word
   let prompt_linenr = unite.prompt_linenr
   call setline(prompt_linenr, unite.prompt . unite.input)
