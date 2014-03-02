@@ -291,8 +291,13 @@ function! unite#mappings#narrowing(word, ...) "{{{
   call setline(prompt_linenr, unite.prompt . unite.input)
   call unite#redraw()
 
-  call cursor(prompt_linenr, 0)
-  startinsert!
+  if unite.is_insert
+    call cursor(prompt_linenr, 0)
+    startinsert!
+  else
+    call cursor(prompt_linenr+1, 0)
+    normal! 0z.
+  endif
 endfunction"}}}
 
 function! unite#mappings#do_action(...) "{{{
